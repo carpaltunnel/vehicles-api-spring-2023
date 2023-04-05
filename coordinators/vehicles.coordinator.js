@@ -1,7 +1,9 @@
+const VehiclesModel = require('../models/vehicles.model');
+
 class VehiclesCoordinator {
   static getVehicles = () => {
     console.log('\t VehiclesCoordinator.getVehicles');
-    return 'hello';
+    return VehiclesModel.getVehicles();
   };
 }
 
