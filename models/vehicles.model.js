@@ -11,6 +11,14 @@ class VehiclesModel {
     console.log('\t\tVehiclesModel.getVehicles');
     return vehiclesData;
   };
+
+  static createVehicle = (vehicle) => {
+    console.log('\t\tVehiclesModel.createVehicle');
+
+    vehiclesData.push(vehicle);
+
+    return vehicle;
+  };
 }
 
 module.exports = VehiclesModel;
