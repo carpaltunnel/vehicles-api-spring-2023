@@ -40,6 +40,37 @@ class VehiclesModel {
 
     return true;
   };
+
+  static replaceVehicle = (id, vehicle) => {
+    console.log('\t\tVehiclesModel.replaceVehicle');
+    const vIndex = vehiclesData.findIndex((v) => {
+      return v.id === id;
+    });
+
+    if (vIndex === -1) {
+      return false;
+    }
+
+    vehiclesData[vIndex] = vehicle;
+    return vehicle;
+  };
+
+  static updateVehicle = (id, vehicle) => {
+    console.log('\t\tVehiclesModel.updateVehicle');
+    const vIndex = vehiclesData.findIndex((v) => {
+      return v.id === id;
+    });
+
+    if (vIndex === -1) {
+      return false;
+    }
+
+    Object.keys(vehicle).forEach((key) => {
+      vehiclesData[vIndex][key] = vehicle[key];
+    });
+    
+    return vehiclesData[vIndex];
+  };
 }
 
 module.exports = VehiclesModel;

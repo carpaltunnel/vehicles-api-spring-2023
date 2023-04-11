@@ -37,9 +37,35 @@ const deleteVehicle = async (req, res, next) => {
   }
 };
 
+const replaceVehicle = async (req, res, next) => {
+  console.log('vehiclesController.replacevehicle');
+
+  const replaceResult = VehiclesCoordinator.replaceVehicle(req.params.id, req.body);
+  
+  if (replaceResult) {
+    res.status(200).json(replaceResult);
+  } else {
+    res.status(404).json();
+  }
+};
+
+const updateVehicle = async (req, res, next) => {
+  console.log('vehiclesController.updateVehicle');
+
+  const updateResult = VehiclesCoordinator.updateVehicle(req.params.id, req.body);
+  
+  if (updateResult) {
+    res.status(200).json(updateResult);
+  } else {
+    res.status(404).json();
+  }
+};
+
 module.exports = {
   getVehicles,
   getVehicle,
   createVehicle,
   deleteVehicle,
+  replaceVehicle,
+  updateVehicle,
 };

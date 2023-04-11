@@ -23,6 +23,20 @@ class VehiclesCoordinator {
     console.log('\t VehiclesCoordinator.deleteVehicle');
     return VehiclesModel.deleteVehicle(id);
   };
+
+  static replaceVehicle = (id, vehicle) => {
+    console.log('\t VehiclesCoordinator.replaceVehicle');
+    vehicle.id = id;
+    // TODO: Don't allow users to change VINs
+    return VehiclesModel.replaceVehicle(id, vehicle);
+  };
+
+  static updateVehicle = (id, vehicle) => {
+    console.log('\t VehiclesCoordinator.updateVehicle');
+    vehicle.id = id;
+    // TODO: Don't allow users to change VINs
+    return VehiclesModel.updateVehicle(id, vehicle);
+  };
 }
 
 module.exports = VehiclesCoordinator;

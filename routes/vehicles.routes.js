@@ -5,6 +5,7 @@ const router = express.Router();
 router.get('/', vehiclesController.getVehicles);
 router.get('/:id', vehiclesController.getVehicle);
 router.post('/', vehiclesController.createVehicle);
-router.delete('/:id', vehiclesController.deleteVehicle)
+router.delete('/:id', vehiclesController.deleteVehicle);
+router.put('/:id', vehiclesController.replaceVehicle);
 
 module.exports = router;
