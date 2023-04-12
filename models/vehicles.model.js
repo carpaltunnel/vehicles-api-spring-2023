@@ -23,6 +23,8 @@ class VehiclesModel {
   static createVehicle = (vehicle) => {
     console.log('\t\tVehiclesModel.createVehicle');
 
+    // This triggers the errorHandler middleware
+    // throw new Error('ruh-roh');
     vehiclesData.push(vehicle);
 
     return vehicle;

@@ -19,10 +19,13 @@ const getVehicle = async (req, res, next) => {
 };
 
 const createVehicle = async (req, res, next) => {
-  console.log('vehiclesController.createVehicle');
-
-  const result = VehiclesCoordinator.createVehicle(req.body);
-  res.status(200).json(result);
+  try {
+    console.log('vehiclesController.createVehicle');
+    const result = VehiclesCoordinator.createVehicle(req.body);
+    res.status(200).json(result);
+  } catch (ex) {
+    next(ex);
+  }
 };
 
 const deleteVehicle = async (req, res, next) => {
