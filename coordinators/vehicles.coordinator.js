@@ -27,7 +27,6 @@ class VehiclesCoordinator {
   static replaceVehicle = (id, vehicle) => {
     console.log('\t VehiclesCoordinator.replaceVehicle');
     vehicle.id = id;
-    // TODO: Don't allow users to change VINs
     return VehiclesModel.replaceVehicle(id, vehicle);
   };
 

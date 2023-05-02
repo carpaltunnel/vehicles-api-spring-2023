@@ -7,20 +7,21 @@ let vehiclesData = [
 ];
 
 const db = require('../lib/database');
+const Constants = require('../lib/constants');
 
 class VehiclesModel {
   static getVehicles = () => {
     console.log('\t\tVehiclesModel.getVehicles');
 
     // TODO: Make this better
-    return db.getDb().collection('vehicles').find({})
+    return db.getDb().collection(Constants.COLLECTIONS.VEHICLES).find({})
       .project({ _id: 0 }).toArray();
   };
 
   static getVehicle = (id) => {
     console.log(`\t\tVehiclesModel.getVehicle :: ${id}`);
 
-    return db.getDb().collection('vehicles')
+    return db.getDb().collection(Constants.COLLECTIONS.VEHICLES)
       .findOne({ id }, {
         projection: { _id: 0 }
       });
@@ -29,55 +30,60 @@ class VehiclesModel {
   static createVehicle = async (vehicle) => {
     console.log('\t\tVehiclesModel.createVehicle');
 
-    await db.getDb().collection('vehicles')
+    await db.getDb().collection(Constants.COLLECTIONS.VEHICLES)
       .insertOne(vehicle);
 
     delete vehicle._id;
     return vehicle;
   };
 
-  static deleteVehicle = (id) => {
+  static deleteVehicle = async (id) => {
     console.log('\t\tVehiclesModel.deleteVehicle');
 
-    const originalVehicleCount = vehiclesData.length;
-    vehiclesData = vehiclesData.filter(v => id !== v.id);
+    const deleteResult = await db.getDb().collection(Constants.COLLECTIONS.VEHICLES)
+      .deleteOne({ id });
 
-    if (vehiclesData.length === originalVehicleCount) {
+    if (deleteResult.deletedCount === 0) {
       return false;
     }
 
     return true;
   };
 
-  static replaceVehicle = (id, vehicle) => {
+  static replaceVehicle = async (id, vehicle) => {
     console.log('\t\tVehiclesModel.replaceVehicle');
-    const vIndex = vehiclesData.findIndex((v) => {
-      return v.id === id;
-    });
+    
+    const result = await db.getDb().collection(Constants.COLLECTIONS.VEHICLES)
+      .replaceOne({ id }, vehicle);
 
-    if (vIndex === -1) {
-      return false;
+    if (result.matchedCount === 1) {
+      return vehicle;
     }
 
-    vehiclesData[vIndex] = vehicle;
-    return vehicle;
+    return false;
   };
 
-  static updateVehicle = (id, vehicle) => {
+  static updateVehicle = async (id, vehicle) => {
     console.log('\t\tVehiclesModel.updateVehicle');
-    const vIndex = vehiclesData.findIndex((v) => {
-      return v.id === id;
-    });
 
-    if (vIndex === -1) {
-      return false;
-    }
+    const update = {};
 
     Object.keys(vehicle).forEach((key) => {
-      vehiclesData[vIndex][key] = vehicle[key];
+      if (key === 'id') {
+        return;
+      }
+     update[key] = vehicle[key];
     });
+
+    const updateResults = await db.getDb().collection(Constants.COLLECTIONS.VEHICLES)
+      .findOneAndUpdate({ id }, { $set: update }, { returnDocument: 'after' });
     
-    return vehiclesData[vIndex];
+      if (updateResults.value) {
+        delete updateResults.value._id;
+        return updateResults.value;
+      }
+  
+      return false;
   };
 }
 

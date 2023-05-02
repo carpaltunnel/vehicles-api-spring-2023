@@ -31,7 +31,7 @@ const createVehicle = async (req, res, next) => {
 const deleteVehicle = async (req, res, next) => {
   console.log('vehiclesController.deleteVehicle');
   
-  const deleteResult = VehiclesCoordinator.deleteVehicle(req.params.id);
+  const deleteResult = await VehiclesCoordinator.deleteVehicle(req.params.id);
 
   if (deleteResult) {
     res.status(204).json(deleteResult);
@@ -43,7 +43,7 @@ const deleteVehicle = async (req, res, next) => {
 const replaceVehicle = async (req, res, next) => {
   console.log('vehiclesController.replacevehicle');
 
-  const replaceResult = VehiclesCoordinator.replaceVehicle(req.params.id, req.body);
+  const replaceResult = await VehiclesCoordinator.replaceVehicle(req.params.id, req.body);
   
   if (replaceResult) {
     res.status(200).json(replaceResult);
@@ -55,7 +55,7 @@ const replaceVehicle = async (req, res, next) => {
 const updateVehicle = async (req, res, next) => {
   console.log('vehiclesController.updateVehicle');
 
-  const updateResult = VehiclesCoordinator.updateVehicle(req.params.id, req.body);
+  const updateResult = await VehiclesCoordinator.updateVehicle(req.params.id, req.body);
   
   if (updateResult) {
     res.status(200).json(updateResult);
