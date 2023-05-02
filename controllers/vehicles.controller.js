@@ -3,13 +3,13 @@ const VehiclesCoordinator = require('../coordinators/vehicles.coordinator');
 const getVehicles = async (req, res, next) => {
   console.log('vehiclesController.getVehicles');
 
-  const result = VehiclesCoordinator.getVehicles();
+  const result = await VehiclesCoordinator.getVehicles();
   res.status(200).json(result);
 };
 
 const getVehicle = async (req, res, next) => {
   console.log('vehiclesController.getVehicle');
-  const foundVehicle = VehiclesCoordinator.getVehicle(req.params.id);
+  const foundVehicle = await VehiclesCoordinator.getVehicle(req.params.id);
   
   if (foundVehicle) {
     res.status(200).json(foundVehicle);
@@ -21,7 +21,7 @@ const getVehicle = async (req, res, next) => {
 const createVehicle = async (req, res, next) => {
   try {
     console.log('vehiclesController.createVehicle');
-    const result = VehiclesCoordinator.createVehicle(req.body);
+    const result = await VehiclesCoordinator.createVehicle(req.body);
     res.status(200).json(result);
   } catch (ex) {
     next(ex);

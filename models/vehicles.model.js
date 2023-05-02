@@ -6,27 +6,33 @@ let vehiclesData = [
   {id: "29bdb63a-6633-45a4-9e10-1bd060c09827", "make":"Chevrolet","model":"Malibu","year":1997,"vin":"d305706d-386a-4f25-96dc-95ea604d521e"},
 ];
 
+const db = require('../lib/database');
 
 class VehiclesModel {
   static getVehicles = () => {
     console.log('\t\tVehiclesModel.getVehicles');
-    return vehiclesData;
+
+    // TODO: Make this better
+    return db.getDb().collection('vehicles').find({})
+      .project({ _id: 0 }).toArray();
   };
 
   static getVehicle = (id) => {
     console.log(`\t\tVehiclesModel.getVehicle :: ${id}`);
 
-    const foundVehicle = vehiclesData.find(v => id === v.id);
-    return foundVehicle;
+    return db.getDb().collection('vehicles')
+      .findOne({ id }, {
+        projection: { _id: 0 }
+      });
   };
 
-  static createVehicle = (vehicle) => {
+  static createVehicle = async (vehicle) => {
     console.log('\t\tVehiclesModel.createVehicle');
 
-    // This triggers the errorHandler middleware
-    // throw new Error('ruh-roh');
-    vehiclesData.push(vehicle);
+    await db.getDb().collection('vehicles')
+      .insertOne(vehicle);
 
+    delete vehicle._id;
     return vehicle;
   };
 
